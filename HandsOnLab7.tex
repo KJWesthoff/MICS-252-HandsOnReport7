@@ -44,7 +44,7 @@
 \usepackage{lscape}
 \usepackage{fontawesome}
 
-\title{Hands On Lab: Unit 7 \\ MICS-252, Fall 2024 \\ Threat Modelling II} % Article title, use manual lines breaks (\\) to beautify the layout
+\title{Hands On Lab: Unit 7 \\ MICS-252, Fall 2024 \\ Threat Detection} % Article title, use manual lines breaks (\\) to beautify the layout
 
 % Authors are listed in a comma-separated list with superscript numbers indicating affiliations
 % \thanks{} is used for any text that should be placed in a footnote on the first page, such as the corresponding author's email, journal acceptance dates, a copyright/license notice, keywords, etc
@@ -83,22 +83,22 @@ MICS Course 252 Fall 2024 (Kristy Westphal)
 
 
 \section{Introduction}
-In the previous Assinment unit 6 \cite{Assingnment6} the 'home network' threat model using 'STRIDE' idenified the following weaknesses:
+In the previous Assignment unit 6 \cite{Assingnment6} the 'home network' threat model using 'STRIDE' identified the following weaknesses:
 
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Exploitable assets, allowing access to the network and pivot points for further exploitation
 		\item WIFI passwords may have been leaked granting direct access to the network
-		\item Logging is scarse, inconsistent and incoherent (Windows pc's may log a-lot, IOT devices may not log at all)
+		\item Logging is scarce, inconsistent and incoherent (Windows pc's may log a-lot, IOT devices may not log at all)
 	\end{itemize}
 \end{spacing}
 
-
+\section{What Are We Protecting from What?}
 What we are protecting on our home network:
 \begin{spacing}{1}
 	\begin{itemize}
-		\item Our login credetials (Bank, Online services etc.)
-		\item Peronal data (Documents, images etc.)
+		\item Our login credentials (Bank, Online services etc.)
+		\item Personal data (Documents, images etc.)
 		\item Privacy (online activity)
 		\item Use of your bandwidth (cost and speed)
 	\end{itemize}
@@ -108,9 +108,9 @@ The threats are:
 
 \begin{spacing}{1}
 	\begin{itemize}
-		\item Phishing attacks to steal credetials
+		\item Phishing attacks to steal credentials
 		\item Malware
-		\item Assets being utilized as zombies in a botnet, for cryptomining, etc.
+		\item Assets being utilized as zombies in a botnet, for crypto mining, etc.
 		\item Uncontrolled hosts on network
 	\end{itemize}
 \end{spacing}
@@ -126,8 +126,7 @@ Applying the:
 		\item Action
 	\end{enumerate}
 \end{spacing}
-Mehtodology \\
-To each identified threat, gives some possible 'Use Cases'\footnote{I am a bit puzzled by the term 'Use Case' as it sounds like a sales argument for a SIEM, I thinink 'Threat Control' is a better term and can be applied holisticly} for detecetion rules.
+Methodology to each identified threat, gives some possible 'Use Cases'\footnote{I am a bit puzzled by the term 'Use Case' as it sounds like a sales argument for a SIEM, I think 'Threat Control' is a better term and can be applied holistically} for detection rules.
 
 \subsection{Phishing}
 Use case Outcome, Detect and block inbound phishing
@@ -136,18 +135,18 @@ Use case Outcome, Detect and block inbound phishing
 		\item Indicators:
 		      \begin{itemize}
 			      \item Suspicoous sender
-			      \item Suspicious domain (coud be subtile canges to a URL)
-			      \item Unusual requests e.g asking for ssn, bankaccount number etc.
+			      \item Suspicious domain (could be subtle changes to a URL)
+			      \item Unusual requests e.g asking for SSN, bank account number etc.
 		      \end{itemize}
 		\item Data Source:
 		      \begin{itemize}
 			      \item Email vendor/service provider phishing detection
-			      \item Endpoint protection (e.g. windows defender\cite{WindowsDefenderCommercial}), with an updated list of signatures
+			      \item Endpoint protection (e.g. Windows defender\cite{WindowsDefenderCommercial}), with an updated list of signatures
 		      \end{itemize}
 		\item Action:
 		      \begin{itemize}
 			      \item Hold
-			      \item Block/Drop (in case of known phising sender/domain)
+			      \item Block/Drop (in case of known phishing sender/domain)
 			      \item Alert
 		      \end{itemize}
 	\end{itemize}
@@ -182,7 +181,7 @@ Use case Outcome, Detect malware and notify user at host level
 		\item Indicators:
 		      \begin{itemize}
 			      \item Unusual behavior (slowness)
-			      \item Get notified from outside\footnote{DDOS is dificult to detect, if you are part of a botnet you will likeley just get the traffic going to the attacked endpoint blocked and never know about it, a mitigaio may be a notification service.}
+			      \item Get notified from outside\footnote{DDOS is difficult to detect, if you are part of a botnet you will likely just get the traffic going to the attacked endpoint blocked and never know about it, a mitigation may be a notification service.}
 		      \end{itemize}
 		\item Data Source:
 		      \begin{itemize}
@@ -198,7 +197,7 @@ Use case Outcome, Detect malware and notify user at host level
 \end{spacing}
 
 \subsection{Unwanted hosts on network}
-Use Case outcome: Block unauthorised hosts on network
+Use Case outcome: Block unauthorized hosts on network
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Indicators:
@@ -219,11 +218,11 @@ Use Case outcome: Block unauthorised hosts on network
 
 
 \section{Conclusion}
-Home networks are limited regarding infrastucture to detect and protect network activity and relies more on passive measures, such as subnetting and protection of individual endpoints. Home networks requirements are both simple, providing basic HTTP/S access and complicated, internally providing services and protocols making things like printers simple to use. Furthermore, IOT complicates the security management, there is not enoug attention to the increasing number of gadgets whith networking adpapters being connected to networks. The chipserts used are cheap but still capable of doing actual computing, making them targets for use in zombie botnets.
-Apart from 'static' remedies such as subnetting, implementing real monitoring of the netork requires some knowledge which the normal cosumer does not have. \\
-Dicovering and alerting of botnets is delegated to large entities which have an overview of a network and resources to kill DDOS at a many points around the network. \\
-Some automated firewall and network detection and respone 'boxes'\cite{FireWallaCommerical} are available to home network users with monitoring of bandwidth usage, blocking phihshing, advertisement and network events. Anywyay these are not 'deploy and forget' some interaction is required, to interpret alters and to maintain. \\
-Monitoring on a home networks could be allocated to the extremes of the data flow, and regard the network itself as an insecure place. Monitoring of bank transactions often happen on the bank's infrastructure, and monitoring of privacy is alloated to the endpoints on the network (things with webbrowers)
+Home networks are limited regarding infrastructure to detect and protect network activity and relies more on passive measures, such as subnetting and protection of individual endpoints. Home networks requirements are both simple, providing basic HTTP/S access and complicated, internally providing services and protocols making things like printers simple to use. Furthermore, IOT complicates the security management, there is not enough attention to the increasing number of gadgets with networking adapters being connected to networks. The chip sets used are cheap but still capable of doing actual computing, making them targets for use in zombie botnets.
+Apart from 'static' remedies such as subnetting, implementing real monitoring of the network requires some knowledge which the normal consumer does not have. \\
+Discovering and alerting of botnets is delegated to large entities which have an overview of a network and resources to kill DDOS at a many points around the network. \\
+Some automated firewall and network detection and response 'boxes'\cite{FireWallaCommerical} are available to home network users with monitoring of bandwidth usage, blocking phishing, advertisement and network events. Anyway these are not 'deploy and forget' some interaction is required, to interpret alters and to maintain. \\
+Monitoring on a home networks could be allocated to the extremes of the data flow, and regard the network itself as an insecure place. Monitoring of bank transactions often happen on the bank's infrastructure, and monitoring of privacy is allocated to the endpoints on the network (things with web browsers)
 
 
 
