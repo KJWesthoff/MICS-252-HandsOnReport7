@@ -89,12 +89,12 @@ In the previous Assignment unit 6 \cite{Assingnment6} the 'home network' threat 
 	\begin{itemize}
 		\item Exploitable assets, allowing access to the network and pivot points for further exploitation
 		\item WIFI passwords may have been leaked granting direct access to the network
-		\item Logging is scarce, inconsistent and incoherent (Windows pc's may log a-lot, IOT devices may not log at all)
+		\item Logging is scarce, inconsistent and incoherent (Windows pc's may log a-lot, IOT devices may not log at all, logging at the NAT is limited)
 	\end{itemize}
 \end{spacing}
 
 \section{What Are We Protecting from What?}
-What we are protecting on our home network:
+We are protecting on our home network:
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Our login credentials (Bank, Online services etc.)
@@ -109,8 +109,8 @@ The threats are:
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Phishing attacks to steal credentials
-		\item Malware
-		\item Assets being utilized as zombies in a botnet, for crypto mining, etc.
+		\item Malware ('old fashioned' viruses, key loggers etc.)
+		\item Assets being utilized as zombies in a botnet (botnets, crypto mining, etc.)
 		\item Uncontrolled hosts on network
 	\end{itemize}
 \end{spacing}
@@ -129,18 +129,18 @@ Applying the:
 Methodology to each identified threat, gives some possible 'Use Cases'\footnote{I am a bit puzzled by the term 'Use Case' as it sounds like a sales argument for a SIEM, I think 'Threat Control' is a better term and can be applied holistically} for detection rules.
 
 \subsection{Phishing}
-Use case Outcome, Detect and block inbound phishing
+Use case Outcome: Detect and block inbound phishing
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Indicators:
 		      \begin{itemize}
-			      \item Suspicoous sender
+			      \item Suspicious sender
 			      \item Suspicious domain (could be subtle changes to a URL)
 			      \item Unusual requests e.g asking for SSN, bank account number etc.
 		      \end{itemize}
 		\item Data Source:
 		      \begin{itemize}
-			      \item Email vendor/service provider phishing detection
+			      \item Email vendor/service provider phishing detection and filtering (they maintain the signatures and notifies)
 			      \item Endpoint protection (e.g. Windows defender\cite{WindowsDefenderCommercial}), with an updated list of signatures
 		      \end{itemize}
 		\item Action:
@@ -153,17 +153,17 @@ Use case Outcome, Detect and block inbound phishing
 \end{spacing}
 
 \subsection{Malware}
-Use case Outcome, Detect malware and notify user at host level
+Use case Outcome: Detect malware and notify user at host level
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Indicators:
 		      \begin{itemize}
-			      \item Endpoint protection detections
+			      \item Endpoint protection (virus detection)
 			      \item Unusual behavior (slowing down)
 		      \end{itemize}
 		\item Data Source:
 		      \begin{itemize}
-			      \item Endpoint protection (EDR if equipped)
+			      \item Endpoint protection logs and notifications (EDR if equipped)
 			      \item Network detection (NDR if equipped)
 		      \end{itemize}
 		\item Action:
@@ -174,13 +174,14 @@ Use case Outcome, Detect malware and notify user at host level
 	\end{itemize}
 \end{spacing}
 
-\subsection{DDOS zombie} Use Case Outcome: Notify network administrator (ISP customer) that botnet traffic is emerging from their public IP
+\subsection{DDOS zombie}
+Use Case Outcome: Notify network administrator (you) that botnet traffic is emerging from your public IP
 
 \begin{spacing}{1}
 	\begin{itemize}
 		\item Indicators:
 		      \begin{itemize}
-			      \item Unusual behavior (slowness)
+			      \item Unusual behavior (slowness, the user is the detection system here)
 			      \item Get notified from outside\footnote{DDOS is difficult to detect, if you are part of a botnet you will likely just get the traffic going to the attacked endpoint blocked and never know about it, a mitigation may be a notification service.}
 		      \end{itemize}
 		\item Data Source:
@@ -206,7 +207,7 @@ Use Case outcome: Block unauthorized hosts on network
 		      \end{itemize}
 		\item Data Source:
 		      \begin{itemize}
-			      \item NAT/DHCP server log
+			      \item NAT/DHCP server log and firewall policy
 		      \end{itemize}
 		\item Action:
 		      \begin{itemize}
@@ -218,11 +219,12 @@ Use Case outcome: Block unauthorized hosts on network
 
 
 \section{Conclusion}
-Home networks are limited regarding infrastructure to detect and protect network activity and relies more on passive measures, such as subnetting and protection of individual endpoints. Home networks requirements are both simple, providing basic HTTP/S access and complicated, internally providing services and protocols making things like printers simple to use. Furthermore, IOT complicates the security management, there is not enough attention to the increasing number of gadgets with networking adapters being connected to networks. The chip sets used are cheap but still capable of doing actual computing, making them targets for use in zombie botnets.
+Home networks are limited regarding infrastructure to detect and protect network activity and relies more on passive measures, such as subnetting and protection of individual endpoints. Home networks requirements are both simple (providing basic HTTP/S access) and complicated (providing services and protocols making things like printers simple to use). Furthermore, IOT complicates the security management, the chip sets used are cheap but still capable of doing actual computing, making them targets for use in zombie botnets.
 Apart from 'static' remedies such as subnetting, implementing real monitoring of the network requires some knowledge which the normal consumer does not have. \\
-Discovering and alerting of botnets is delegated to large entities which have an overview of a network and resources to kill DDOS at a many points around the network. \\
-Some automated firewall and network detection and response 'boxes'\cite{FireWallaCommerical} are available to home network users with monitoring of bandwidth usage, blocking phishing, advertisement and network events. Anyway these are not 'deploy and forget' some interaction is required, to interpret alters and to maintain. \\
-Monitoring on a home networks could be allocated to the extremes of the data flow, and regard the network itself as an insecure place. Monitoring of bank transactions often happen on the bank's infrastructure, and monitoring of privacy is allocated to the endpoints on the network (things with web browsers)
+Discovering and alerting of botnets is delegated to large entities which have an overview of a network and resources to kill DDOS at a many points around the network \cite{CloudFlareDDOS}. \\
+Some automated firewall and network detection and response 'boxes'\cite{FireWallaCommerical} are available to home network users with monitoring of bandwidth usage, blocking phishing, advertisement and network events. Anyway these are not 'deploy and forget' some interaction is required to interpret alerts. \\
+Monitoring on a home networks could be allocated to the extremes of the data flow, and regard the network itself as an insecure place. Monitoring of bank transactions often happen on the bank's infrastructure, and monitoring of privacy is allocated to the endpoints on the network (things with web browsers) \\
+Even tough the 'STRIDE' model is primarily minded for software systems, I think it actually works well for home networks with a bit of adaptation, I guess something like a home network actually resembles a system with well defined boundaries like a piece of software. The STRIDE analysis provided clear weaknesses which could then be used to define vulnerabilities for which detection mechanisms can be defined using the Indicator -> Data Source -> Action template.
 
 
 
@@ -236,19 +238,6 @@ Monitoring on a home networks could be allocated to the extremes of the data flo
 
 
 
-
-\begin{enumerate}
-	\item Model Outcome
-	      \begin{itemize}
-		      \item Requirements: Prevent malicious actors from stealing data
-		      \item Technical Scope: Home network
-		      \item Architecture level control analysis: Mitigations from 'Written Assignment 6: Threat Analysis
-	      \end{itemize}
-
-	\item Build cases for rules, logic, action structure
-
-
-\end{enumerate}
 
 
 
